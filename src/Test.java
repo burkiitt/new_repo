@@ -1,21 +1,29 @@
 import java.lang.annotation.*;
 import java.lang.reflect.*;
+import java.util.*;
+//comment
 public class Test {
-    @MyAnno2(str="second annotation",val=2)
-    public static void test(String s,int a){
-        Test test = new Test();
-        try{
-            Annotation[] annotations = test.getClass().getMethod("test",String.class,int.class).getDeclaredAnnotations();
-            for(Annotation annotation : annotations){
-                System.out.println(annotation);
-            }
-        }
-        catch(NoSuchMethodException e){
-            System.out.println("method does not found");
-        }
+    @MyMarker
+    public static void test() throws InterruptedException{
+        Thread.sleep(2000);
+        System.out.println("Hello World");
     }
 
     public static void main(String[] args) {
-        test("good", 445);
+        Test test = new Test();
+        try{
+            Method[] methods = test.getClass().getMethods();
+            for(Method method : methods){
+                if(method.isAnnotationPresent(MyMarker.class)){
+                    long start = System.currentTimeMillis();
+                    method.invoke(test);
+                    long end = System.currentTimeMillis();
+                    System.out.println(end - start);
+                }
+            }
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 }
