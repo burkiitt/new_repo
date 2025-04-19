@@ -1,7 +1,6 @@
 import java.lang.annotation.Annotation;
-
-@Deprecated
 public class Depre {
+    @MyMarker
     public static void main(String[] args) {
         Depre depre = new Depre();
         Class<?> obj = depre.getClass();
